@@ -41,6 +41,8 @@ class MainActivity : ComponentActivity() {
             )
 
             itemsAdapter.addItem(item)
+
+            editText.text.clear()
         }
     }
 }
