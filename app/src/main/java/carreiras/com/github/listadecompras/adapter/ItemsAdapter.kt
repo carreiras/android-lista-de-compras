@@ -11,15 +11,10 @@ import carreiras.com.github.listadecompras.model.ItemModel
 
 class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
 
-    private val items = mutableListOf<ItemModel>()
+    private var items = listOf<ItemModel>()
 
-    fun addItem(newItem: ItemModel) {
-        items.add(newItem)
-        notifyDataSetChanged()
-    }
-
-    fun removeItem(item: ItemModel) {
-        items.remove(item)
+    fun updateItems(newItems: List<ItemModel>) {
+        items = newItems
         notifyDataSetChanged()
     }
 
@@ -27,21 +22,16 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
         return ItemViewHolder(view)
     }
-
     override fun getItemCount(): Int = items.size
-
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
     }
-
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView = view.findViewById<TextView>(R.id.textViewItem)
         val button = view.findViewById<ImageButton>(R.id.imageButton)
-
         fun bind(item: ItemModel) {
             textView.text = item.name
-
             button.setOnClickListener {
                 item.onRemove(item)
             }

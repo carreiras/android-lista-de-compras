@@ -4,20 +4,15 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import carreiras.com.github.listadecompras.adapter.ItemsAdapter
 import carreiras.com.github.listadecompras.model.ItemModel
-import carreiras.com.github.listadecompras.ui.theme.ListaDeComprasTheme
+import carreiras.com.github.listadecompras.viewmodel.ItemsViewModel
 
 class MainActivity : ComponentActivity() {
+    val viewModel: ItemsViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,17 +32,13 @@ class MainActivity : ComponentActivity() {
                 return@setOnClickListener
             }
 
-            val item = ItemModel(
-                name = editText.text.toString(),
-                onRemove = {
-                    itemsAdapter.removeItem(it)
-                },
-                id = 0
-            )
-
-            itemsAdapter.addItem(item)
+            viewModel.addItem(editText.text.toString())
 
             editText.text.clear()
+        }
+
+        viewModel.itemsLiveData.observe(this) { items ->
+            itemsAdapter.updateItems(items)
         }
     }
 }
