@@ -37,7 +37,10 @@ class MainActivity : ComponentActivity() {
             }
 
             val item = ItemModel(
-                name = editText.text.toString()
+                name = editText.text.toString(),
+                onRemove = {
+                    itemsAdapter.removeItem(it)
+                }
             )
 
             itemsAdapter.addItem(item)
